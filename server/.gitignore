@@ -9,7 +9,7 @@
 *.log
 *.lib
 **.idea/
-**.sln
+**.sln*
 [Bb]in
 [Dd]ebug*/
 obj/

@@ -10,9 +10,9 @@
   "profile"     : "default",
   "region"      : "",
   "configuration" : "Release",
-  "framework"     : "netcoreapp2.1",
-  "function-runtime" : "dotnetcore2.1",
+  "framework"     : "netcoreapp2.0",
+  "function-runtime" : "dotnetcore2.0",
   "function-memory-size" : 256,
   "function-timeout"     : 30,
-  "function-handler"     : "Lambda.RootFinder::Lambda.RootFinder.Function::FunctionHandler"
+  "function-handler"     : "RootFinder::RootFinder.Function::FunctionHandler"
 }
