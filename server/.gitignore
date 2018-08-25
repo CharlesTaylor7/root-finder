@@ -8,6 +8,8 @@
 *.cache
 *.log
 *.lib
+**.idea/
+**.sln
 [Bb]in
 [Dd]ebug*/
 obj/
@@ -26,3 +28,4 @@ aspnetdb_log.ldf
 *[Vv]isual[Ss]tate.[Xx][Mm][Ll]
 *~
 \#*\#
+
