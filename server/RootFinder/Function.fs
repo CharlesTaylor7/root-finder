@@ -1,24 +1,14 @@
 namespace Lambda.RootFinder
 
-
-open Amazon.Lambda.Core
-
 open System
+open Amazon.Lambda.Core
+open Amazon.Lambda.Serialization.Json
 
+[<assembly: LambdaSerializer(typeof<JsonSerializer>)>]()
 
-// Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
-[<assembly: LambdaSerializer(typeof<Amazon.Lambda.Serialization.Json.JsonSerializer>)>]
-()
+type Lambda() =
 
-
-type Function() =
-    /// <summary>
-    /// A simple function that takes a string and does a ToUpper
-    /// </summary>
-    /// <param name="input"></param>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    member __.FunctionHandler (input: string) (_: ILambdaContext) =
+    member __.Handler (input: string) (_: ILambdaContext) =
         match input with
         | null -> String.Empty
         | _ -> input.ToUpper()

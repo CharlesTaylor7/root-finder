@@ -1,19 +1,19 @@
-namespace Lambda.RootFinder.Tests
+namespace RootFinder.Tests
 
 
 open Xunit
 open Amazon.Lambda.TestUtilities
 
-open Lambda.RootFinder
+open RootFinder
 
 
 module FunctionTest =
     [<Fact>]
     let ``Invoke ToUpper Lambda Function``() =
         // Invoke the lambda function and confirm the string was upper cased.
-        let lambdaFunction = Function()
+        let lambda = Lambda()
         let context = TestLambdaContext()
-        let upperCase = lambdaFunction.FunctionHandler "hello world" context
+        let upperCase = lambda.Handler "hello world" context
 
         Assert.Equal("HELLO WORLD", upperCase)
 
