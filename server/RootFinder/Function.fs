@@ -8,7 +8,4 @@ open Amazon.Lambda.Serialization.Json
 
 type Lambda() =
 
-    member __.Handler (input: string) (_: ILambdaContext) =
-        match input with
-        | null -> String.Empty
-        | _ -> input.ToUpper()
+    member __.Handler (input: Polynomial) (_: ILambdaContext) : array<Complex> = [||]
