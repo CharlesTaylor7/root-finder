@@ -1,4 +1,4 @@
-namespace Lambda.RootFinder
+namespace RootFinder
 
 open System
 open Amazon.Lambda.Core
