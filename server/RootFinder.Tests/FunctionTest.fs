@@ -11,9 +11,10 @@ module FunctionTest =
     let ``Invoke ToUpper Lambda Function``() =
         let lambda = Lambda()
         let context = TestLambdaContext()
-        let upperCase = lambda.Handler "hello world" context
+        let polynomial = Polynomial [| Complex.one |]
+        let roots = lambda.Handler polynomial context
 
-        Assert.Equal("HELLO WORLD", upperCase)
+        Assert.True(false)
 
     [<EntryPoint>]
     let main _ = 0

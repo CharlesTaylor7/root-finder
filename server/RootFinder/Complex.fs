@@ -22,15 +22,19 @@ type Complex =
       z.conjugate / z.normSquared
   end
 
-  static member zero =
-    Complex ()
+  static member zero = Complex()
+  static member one = Complex(1.0, 0.0)
 
-  static member one =
-    Complex(1.0, 0.0)
+  // Unary negation
+  static member (~-) (z: Complex) =
+    Complex(-z.real, -z.imag)
 
   // Scalar operations
   static member (*) (s: double, z: Complex) =
     Complex(s * z.real, s * z.imag)
+
+  static member (*) (s: int, z: Complex) =
+    double s * z
 
   static member (/) (z: Complex, s: double) =
     Complex(z.real / s, z.imag / s)
