@@ -20,7 +20,7 @@ type Complex (real: double, imag: double)=
       if Math.Sign z.imag >= 0
       then '+'
       else '-'
-    String.Format ("{0} {2} {1} * i", z.real, Math.Abs z.imag, sign)
+    String.Format ("{0} {2} {1}*i", z.real, Math.Abs z.imag, sign)
 
   static member inline (+|) (x, y) = Complex(x, y)
 
@@ -61,7 +61,7 @@ module Complex =
     Complex(double x, double y)
 
   let inline complex d =
-    double d +| 0.0
+    d +| 0
 
   let inline polar r theta =
     r * (Math.Cos theta +| Math.Sin theta)

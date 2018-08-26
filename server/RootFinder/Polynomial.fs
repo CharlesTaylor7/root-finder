@@ -39,3 +39,8 @@ type Polynomial(coefficients: array<Complex>) =
     for i = 0 to min do
       array.[i] <- p1.[i] + p2.[i]
     Polynomial array
+
+[<AutoOpen>]
+module Polynomial =
+  let inline poly seq =
+    Seq.map complex seq |> Seq.toArray |> Polynomial
