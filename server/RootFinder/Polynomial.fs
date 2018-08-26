@@ -24,7 +24,7 @@ type Polynomial =
     // Horner's Rule
     member p.eval(z: Complex) =
       let mutable total = Complex.zero
-      for i = 0 to p.degree do
+      for i = p.degree downto 0 do
         total <- p.[i] + z * total
       total
   end
