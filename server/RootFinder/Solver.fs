@@ -2,6 +2,7 @@ namespace RootFinder
 
 open System
 
+[<AutoOpen>]
 module Solver =
 
   let roots_of_unity n =

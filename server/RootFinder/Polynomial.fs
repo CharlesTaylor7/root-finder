@@ -2,32 +2,29 @@ namespace RootFinder
 
 open System
 
-type Polynomial =
-  struct
-    val public coefficients: array<Complex>
+type Polynomial(coefficients: array<Complex>) =
 
-    new (coefficients) = Polynomial(coefficients)
+  member p.coefficients = coefficients
 
-    member p.degree =
-      p.coefficients.Length - 1
+  member inline p.degree =
+    p.coefficients.Length - 1
 
-    member p.Item(index) =
-      p.coefficients.[index]
+  member inline p.Item(index) =
+    p.coefficients.[index]
 
-    member p.derivative =
-      let degree = p.degree
-      let array = Array.zeroCreate degree
-      for i = 0 to degree - 1 do
-        array.[i] <- (i + 1) * p.[i + 1]
-      Polynomial array
+  member p.derivative =
+    let degree = p.degree
+    let array = Array.zeroCreate degree
+    for i = 0 to degree - 1 do
+      array.[i] <- (i + 1) * p.[i + 1]
+    Polynomial array
 
-    // Horner's Rule
-    member p.eval(z: Complex) =
-      let mutable total = Complex.zero
-      for i = p.degree downto 0 do
-        total <- p.[i] + z * total
-      total
-  end
+  // Horner's Rule
+  member p.eval(z: Complex) =
+    let mutable total = Complex.zero
+    for i = p.degree downto 0 do
+      total <- p.[i] + z * total
+    total
 
   static member (*) (s: double, p: Polynomial) =
     Polynomial <| Array.map (fun z -> s * z) p.coefficients

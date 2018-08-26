@@ -2,26 +2,29 @@ namespace RootFinder
 
 open System
 
-type Complex =
-  struct
-    val real: double
-    val imag: double
+type Complex (real: double, imag: double)=
+  member z.real = real
+  member z.imag = imag
 
-    new(real, double) = Complex(real, double)
+  member inline z.normSquared =
+   z.real * z.real + z.imag * z.imag;
 
-    member z.normSquared =
-     z.real * z.real + z.imag * z.imag;
+  member inline z.norm =
+    Math.Sqrt z.normSquared
 
-    member z.norm =
-      Math.Sqrt z.normSquared
+  member inline z.conjugate =
+    Complex (z.real, -z.imag)
 
-    member z.conjugate =
-      Complex (z.real, -z.imag)
-  end
+  override z.ToString() =
+    let sign =
+      if Math.Sign z.imag >= 0
+      then '+'
+      else '-'
+    String.Format ("{0} {2} {1} * i", z.real, Math.Abs z.imag, sign)
 
   static member inline (+|) (x, y) = Complex(x, y)
 
-  static member zero = Complex()
+  static member inline zero = Complex(0.0, 0.0)
   static member one = Complex(1.0, 0.0)
 
   // Unary negation
@@ -55,10 +58,10 @@ type Complex =
 module Complex =
   // Infix constructor. Looks vaguely like '+ i'.
   let inline (+|) x  y =
-    Complex(x, y)
+    Complex(double x, double y)
 
-  let inline complex (d: double) =
-    d +| 0.0
+  let inline complex d =
+    double d +| 0.0
 
   let inline polar r theta =
     r * (Math.Cos theta +| Math.Sin theta)
