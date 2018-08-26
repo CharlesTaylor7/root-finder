@@ -2,7 +2,6 @@ namespace RootFinder
 
 open System
 
-
 type Complex =
   struct
     val real: double
@@ -10,14 +9,24 @@ type Complex =
 
     new(real, double) = Complex(real, double)
 
-    member z.normSquared = z.real * z.real + z.imag * z.imag;
-    member z.norm = Math.Sqrt z.normSquared
-    member z.conjugate = Complex(z.real, -z.imag)
-    member z.inverse = z.conjugate / z.normSquared
+    member z.normSquared =
+     z.real * z.real + z.imag * z.imag;
+
+    member z.norm =
+      Math.Sqrt z.normSquared
+
+    member z.conjugate =
+      Complex (z.real, -z.imag)
+
+    member z.inverse =
+      z.conjugate / z.normSquared
   end
 
-  static member zero = Complex ()
-  static member one = Complex(1.0, 0.0)
+  static member zero =
+    Complex ()
+
+  static member one =
+    Complex(1.0, 0.0)
 
   // Scalar operations
   static member (*) (s: double, z: Complex) =
@@ -38,4 +47,3 @@ type Complex =
 
   static member (/) (z1: Complex, z2: Complex) =
     z1 * z2.inverse
-
