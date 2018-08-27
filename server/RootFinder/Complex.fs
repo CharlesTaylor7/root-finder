@@ -2,9 +2,12 @@ namespace RootFinder
 
 open System
 
-type Complex (real: double, imag: double)=
-  member z.real = real
-  member z.imag = imag
+type Complex =
+  struct
+    val real: double
+    val imag: double
+    new (real, imag) = { real = real; imag = imag; }
+  end
 
   member inline z.normSquared =
    z.real * z.real + z.imag * z.imag;
@@ -21,8 +24,6 @@ type Complex (real: double, imag: double)=
       then '+'
       else '-'
     String.Format ("{0} {2} {1}*i", z.real, Math.Abs z.imag, sign)
-
-  static member inline (+|) (x, y) = Complex(x, y)
 
   static member inline zero = Complex(0.0, 0.0)
   static member one = Complex(1.0, 0.0)

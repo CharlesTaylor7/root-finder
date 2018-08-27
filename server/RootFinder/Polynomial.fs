@@ -2,9 +2,11 @@ namespace RootFinder
 
 open System
 
-type Polynomial(coefficients: array<Complex>) =
-
-  member p.coefficients = coefficients
+type Polynomial =
+  struct
+    val coefficients: array<Complex>
+    new (coefficients) = { coefficients = coefficients}
+  end
 
   member inline p.degree =
     p.coefficients.Length - 1
