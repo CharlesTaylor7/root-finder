@@ -9,5 +9,8 @@ open Solver
 
 type Lambda() =
 
-  member __.Handler (input: Polynomial) (_: ILambdaContext) : array<Complex> =
-    solve input
+  member __.Handler (input: string) (_: ILambdaContext) =
+    "Hello World!"
+
+//  member __.Handler (input: Polynomial) (_: ILambdaContext) : array<Complex> =
+//    solve input
