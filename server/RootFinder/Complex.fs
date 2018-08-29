@@ -55,7 +55,6 @@ type Complex =
   static member inline (/) (z1: Complex, z2: Complex) =
     (z1 * z2.conjugate) / z2.normSquared
 
-[<AutoOpen>]
 module Complex =
   // Infix constructor. Looks vaguely like '+ i'.
   let inline (+|) x  y =

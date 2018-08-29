@@ -21,4 +21,7 @@
   <ItemGroup>
     <Content Include="aws-lambda-tools-defaults.json" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Script.fsx" />
+  </ItemGroup>
 </Project>

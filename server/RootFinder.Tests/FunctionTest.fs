@@ -1,10 +1,11 @@
 namespace RootFinder.Tests
 
-
 open Xunit
 open Amazon.Lambda.TestUtilities
 open RootFinder
-
+open Polynomial
+open Complex
+open Solver
 
 module FunctionTest =
     [<Fact>]

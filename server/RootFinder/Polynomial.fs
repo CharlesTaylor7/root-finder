@@ -1,12 +1,15 @@
 namespace RootFinder
 
 open System
+open Complex
 
 type Polynomial =
   struct
-    val coefficients: array<Complex>
+    val coefficients: Complex array
     new (coefficients) = { coefficients = coefficients}
   end
+
+  override p.ToString() = p.coefficients.ToString()
 
   member inline p.degree =
     p.coefficients.Length - 1
@@ -42,7 +45,6 @@ type Polynomial =
       array.[i] <- p1.[i] + p2.[i]
     Polynomial array
 
-[<AutoOpen>]
 module Polynomial =
   let inline poly seq =
     Seq.map complex seq |> Seq.toArray |> Polynomial
