@@ -5,7 +5,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FunctionTest.fs" />
+    <Compile Include="ComplexTests.fs" />
+    <Compile Include="PolynomialTests.fs" />
+    <Compile Include="SolverTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="1.0.0" />

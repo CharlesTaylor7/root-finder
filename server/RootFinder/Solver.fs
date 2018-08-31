@@ -26,12 +26,12 @@ module Solver =
     let newton z = z - p.eval(z) / d.eval(z)
     let rec iterate z =
       let next = newton z
-      if (z - next).normSquared > delta
+      if equalWithin delta z next
       then iterate next
       else next
     iterate guess
 
-  let inline interpolate (p1: Polynomial) (p2: Polynomial) t =
+  let inline interpolate t (p1: Polynomial) (p2: Polynomial) =
     (1.0 - t) * p1 + t * p2
 
   let repeat f x =
@@ -42,19 +42,22 @@ module Solver =
         x' <- f x'
     }
 
+  let step_count = 10
+  let delta = 1e-3
+
   let path (root: Complex) (p_i: Polynomial) (p_f: Polynomial) : Complex list =
     let p_start = p_i
     let p_final = p_f
     let step_count = 10
-    let delta = 1e-7
+    let delta = 1e-3
 
     let inline step i =
-      double (i + 1) / double step_count
+      double i  / double step_count
 
     let reducer (previous: Complex list) (i: int) =
       let current = List.head previous
       let t = step i
-      let p = interpolate p_start p_final t
+      let p = interpolate t p_start p_final
       let next = newton_solve p current delta
       next :: previous
 
@@ -68,17 +71,51 @@ module Solver =
     let roots = roots_of_unity n |> Seq.toArray
     let p_start = polynomial_of_unity n
     let p_final = p
-    let step_count = 10
-    let delta = 1e-7
 
     let inline step i =
-      double (i + 1) / double step_count
+      double i / double step_count
 
     let reducer (current: Complex) (i: int) =
       let t = step i
-      let p = interpolate p_start p_final t
+
+      let p = interpolate t p_start p_final
       newton_solve p current delta
 
     let steps = seq { 1 .. step_count }
 
     Array.map (fun root -> Seq.fold reducer root steps) roots
+
+  let monomial (c: Complex) (n: int) =
+    if n < 0
+    then failwith "degree of a monomial should not be negative."
+    else
+      let array = Array.zeroCreate (n+1)
+      array.[n] <- c
+      Polynomial array
+
+  let leadCoefficient (p: Polynomial) =
+    Array.last p.coefficients
+
+  let minusLeadTerm (p: Polynomial) =
+    let f = Array.rev >> Array.tail >> Array.rev
+    f p.coefficients |> Polynomial
+
+  let timesMonomial (n: int) (p: Polynomial) =
+    let array = Array.zeroCreate (p.coefficients.Length + n)
+    for i = 0 to p.degree do
+      array.[i + n] <- p.[i]
+    Polynomial array
+
+  let divideByDerivative (p: Polynomial) =
+    let d = p.derivative
+    let mutable q = [| Complex.zero |] |> Polynomial
+    let mutable r = p
+    // At each step p = d * q + r
+    while r.degree >= d.degree do
+      // Divide the leading terms
+      let z = leadCoefficient r / leadCoefficient d
+      let n = r.degree - d.degree
+      let t = monomial z n
+      q <- q + t
+      r <- minusLeadTerm r - timesMonomial n (z * (minusLeadTerm d))
+    (q, r)

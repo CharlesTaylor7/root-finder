@@ -9,7 +9,7 @@ type Polynomial =
     new (coefficients) = { coefficients = coefficients}
   end
 
-  override p.ToString() = p.coefficients.ToString()
+  override p.ToString() = "[ " + String.Join(", " , p.coefficients :> seq<_>) + " ]"
 
   member inline p.degree =
     p.coefficients.Length - 1
@@ -31,6 +31,9 @@ type Polynomial =
       total <- p.[i] + z * total
     total
 
+  static member (*) (s: Complex, p: Polynomial) =
+    Polynomial <| Array.map (fun z -> s * z) p.coefficients
+
   static member (*) (s: double, p: Polynomial) =
     Polynomial <| Array.map (fun z -> s * z) p.coefficients
 
@@ -44,6 +47,14 @@ type Polynomial =
     for i = 0 to min do
       array.[i] <- p1.[i] + p2.[i]
     Polynomial array
+
+  static member (-) (p1: Polynomial, p2: Polynomial) =
+      let max = Math.Max(p1.degree, p2.degree)
+      let min = Math.Min(p1.degree, p2.degree)
+      let array = Array.zeroCreate (max + 1)
+      for i = 0 to min do
+        array.[i] <- p1.[i] - p2.[i]
+      Polynomial array
 
 module Polynomial =
   let inline poly seq =
