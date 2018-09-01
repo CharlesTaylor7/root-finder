@@ -67,7 +67,7 @@ module Solver =
     path
 
   let solve (p: Polynomial) =
-    let n = p.coefficients.Length
+    let n = p.degree
     let roots = roots_of_unity n |> Seq.toArray
     let p_start = polynomial_of_unity n
     let p_final = p
