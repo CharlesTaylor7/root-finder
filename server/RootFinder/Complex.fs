@@ -2,6 +2,7 @@ namespace RootFinder
 
 //#nowarn "386"
 open System
+open System
 
 //https://stackoverflow.com/a/31283508/4875161
 [<NoComparison>]
@@ -29,9 +30,6 @@ type Complex =
 
   member inline z.phase =
     Math.Atan2 (z.imag, z.real)
-
-  interface IEquatable<Complex> with
-    member z.Equals w = (z - w).norm = 1e-5;
 
   override z.ToString() =
     let sign =
@@ -74,6 +72,9 @@ type Complex =
 
   static member inline (/) (z1: Complex, z2: Complex) =
     (z1 * z2.conjugate) / z2.normSquared
+
+  interface IEquatable<Complex> with
+    member z.Equals w = (z - w).norm <= 1e-5
 
 module Complex =
   // Infix constructor. Looks vaguely like '+ i'.

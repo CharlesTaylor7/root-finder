@@ -5,6 +5,7 @@ open RootFinder
 open Complex
 open System
 open FsUnit
+open FsUnitTyped
 
 module ComplexTests =
 
@@ -14,7 +15,7 @@ module ComplexTests =
     let sum = Complex (2.0, 2.0) + Complex (3.2, -1.1)
     let expected_sum = Complex (5.2, 0.9)
 
-    sum |> should equal expected_sum
+    sum |> shouldEqual expected_sum
 
   [<Test>]
   let ``Polar Coordinates Test`` () =
@@ -39,4 +40,4 @@ module ComplexTests =
     let polar_product = polar (r1 * r2) (theta1 + theta2)
     let regular_product = z1 * z2
 
-    regular_product |> should equal polar_product
+    regular_product |> shouldEqual polar_product
