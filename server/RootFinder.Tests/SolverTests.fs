@@ -7,6 +7,7 @@ open Complex
 open Solver
 open FsUnit
 open System.Linq
+open System
 
 module SolverTests =
   open FsUnitTyped
@@ -28,11 +29,15 @@ module SolverTests =
     remainder |> should equal expected_remainder
 
   [<Test>]
-  let ``Roots``() =
+  let ``Cyclomatic Polynomial Should Have Primitive Roots Of Unity``() =
+
+    // x^2 + x + 1.
+    // Roots are primitive 3rd roots of -1.
     let coefficients = Array.create 3 <| complex 1.0
     let polynomial = Polynomial coefficients
     let roots = solve polynomial
 
-    let expected_roots = [|-0.5 +| 0.868470711508412; -1.03294226085702 +| 0 |]
+    let angle = 2.0 * Math.PI / 3.0;
+    let expected_roots = [| polar 1 angle ; polar 1 (-angle) |]
 
     roots |> should equal expected_roots
