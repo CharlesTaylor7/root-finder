@@ -9,6 +9,7 @@ open FsUnit
 open System.Linq
 
 module SolverTests =
+  open FsUnitTyped
 
   [<Test>]
   let ``Test Divide By Derivative``() =
@@ -32,4 +33,6 @@ module SolverTests =
     let polynomial = Polynomial coefficients
     let roots = solve polynomial
 
-    roots |> should haveLength 2
+    let expected_roots = [|-0.5 +| 0.868470711508412; -1.03294226085702 +| 0 |]
+
+    roots |> should equal expected_roots

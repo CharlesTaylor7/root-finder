@@ -2,6 +2,7 @@ namespace RootFinder
 
 open System
 open Complex
+open Utilities
 
 [<NoComparison>]
 [<CustomEquality>]
@@ -13,9 +14,7 @@ type Polynomial =
 
   interface IEquatable<Polynomial> with
     member p.Equals q =
-      let sameDegree = p.coefficients.Length = q.coefficients.Length
-      let sameCoefficients = Seq.zip p.coefficients q.coefficients |> Seq.forall (fun (z, w) -> z = w)
-      sameDegree && sameCoefficients
+      sequence_equal p.coefficients q.coefficients
 
   override p.ToString() = "[ " + String.Join(", " , p.coefficients :> seq<_>) + " ]"
 

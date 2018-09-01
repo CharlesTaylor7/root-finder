@@ -4,20 +4,17 @@ open NUnit.Framework
 open RootFinder
 open Complex
 open System
+open FsUnit
 
 module ComplexTests =
-
-  let precision = 3
-  let tolerance = 1e-3
-  let equal = equalWithin tolerance
 
   [<Test>]
   let ``Complex Addition Test`` () =
 
     let sum = Complex (2.0, 2.0) + Complex (3.2, -1.1)
-    let expectedSum = Complex (5.2, 0.9)
+    let expected_sum = Complex (5.2, 0.9)
 
-    equal sum expectedSum |>  Assert.True
+    sum |> should equal expected_sum
 
   [<Test>]
   let ``Polar Coordinates Test`` () =
@@ -26,8 +23,8 @@ module ComplexTests =
     let z = polar r theta
 
     let twoPi = 2.0 * Math.PI
-    Assert.AreEqual (r, z.norm)
-    Assert.AreEqual (theta % twoPi, z.phase)
+    z.norm |> should (equalWithin 1e-7) r
+    z.phase |> should (equalWithin 1e-7) (theta % twoPi)
 
   [<Test>]
   let ``Complex Multiplication Test`` () =
@@ -42,4 +39,4 @@ module ComplexTests =
     let polar_product = polar (r1 * r2) (theta1 + theta2)
     let regular_product = z1 * z2
 
-    equal polar_product regular_product |> Assert.True
+    regular_product |> should equal polar_product
