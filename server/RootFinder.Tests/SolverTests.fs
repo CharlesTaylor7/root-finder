@@ -1,6 +1,6 @@
 namespace RootFinder.Tests
 
-open Xunit
+open NUnit.Framework
 open RootFinder
 open Polynomial
 open Complex
@@ -8,7 +8,7 @@ open Solver
 
 module SolverTests =
 
-  [<Fact>]
+  [<Test>]
   let ``Test Divide By Derivative``() =
     // -1 + x^2
     let p = [| -Complex.one; Complex.zero; Complex.one |] |> Polynomial
@@ -21,14 +21,14 @@ module SolverTests =
 
     let (quotient, remainder) = divideByDerivative p
     let equal = equalWithin 0.01
-    Assert.Equal(quotient.coefficients.Length, 2)
+    Assert.AreEqual(quotient.coefficients.Length, 2)
     Assert.True(equal quotient.[0] Complex.zero)
     Assert.True(equal quotient.[1] expected_quotient)
 
-    Assert.Equal(remainder.coefficients.Length, 1)
+    Assert.AreEqual(remainder.coefficients.Length, 1)
     Assert.True(equal remainder.[0] expected_remainder)
 
-  [<Fact>]
+  [<Test>]
   let ``Roots``() =
     let coefficients = Array.create 3 <| complex 1.0
     let polynomial = Polynomial coefficients

@@ -1,6 +1,6 @@
 namespace RootFinder.Tests
 
-open Xunit
+open NUnit.Framework
 open RootFinder
 open Complex
 open Polynomial

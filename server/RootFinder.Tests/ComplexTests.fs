@@ -1,6 +1,6 @@
 namespace RootFinder.Tests
 
-open Xunit
+open NUnit.Framework
 open RootFinder
 open Complex
 open System
@@ -11,7 +11,7 @@ module ComplexTests =
   let tolerance = 1e-3
   let equal = equalWithin tolerance
 
-  [<Fact>]
+  [<Test>]
   let ``Complex Addition Test`` () =
 
     let sum = Complex (2.0, 2.0) + Complex (3.2, -1.1)
@@ -19,17 +19,17 @@ module ComplexTests =
 
     equal sum expectedSum |>  Assert.True
 
-  [<Fact>]
+  [<Test>]
   let ``Polar Coordinates Test`` () =
     let r = 7.0
     let theta = 6.6
     let z = polar r theta
 
     let twoPi = 2.0 * Math.PI
-    Assert.Equal (r, z.norm, precision)
-    Assert.Equal (theta % twoPi, z.phase, precision)
+    Assert.AreEqual (r, z.norm)
+    Assert.AreEqual (theta % twoPi, z.phase)
 
-  [<Fact>]
+  [<Test>]
   let ``Complex Multiplication Test`` () =
     let r1 = 5
     let theta1 = 4.3
