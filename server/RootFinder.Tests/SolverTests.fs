@@ -5,6 +5,8 @@ open RootFinder
 open Polynomial
 open Complex
 open Solver
+open FsUnit
+open System.Linq
 
 module SolverTests =
 
@@ -16,17 +18,13 @@ module SolverTests =
     let d = p.derivative
 
     // 0.5*x - 0.5 / x
-    let expected_quotient = complex 0.5
-    let expected_remainder = complex -0.5
+    let expected_quotient = [| Complex.zero; complex 0.5 |] |> Polynomial
+    let expected_remainder = [| complex -0.5 |] |> Polynomial
 
     let (quotient, remainder) = divideByDerivative p
-    let equal = equalWithin 0.01
-    Assert.AreEqual(quotient.coefficients.Length, 2)
-    Assert.True(equal quotient.[0] Complex.zero)
-    Assert.True(equal quotient.[1] expected_quotient)
 
-    Assert.AreEqual(remainder.coefficients.Length, 1)
-    Assert.True(equal remainder.[0] expected_remainder)
+    quotient |> should equal expected_quotient
+    remainder |> should equal expected_remainder
 
   [<Test>]
   let ``Roots``() =
@@ -34,4 +32,4 @@ module SolverTests =
     let polynomial = Polynomial coefficients
     let roots = solve polynomial
 
-    Assert.True(roots.Length = 2)
+    roots |> should haveLength 2

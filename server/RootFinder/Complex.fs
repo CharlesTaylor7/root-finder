@@ -1,7 +1,11 @@
 namespace RootFinder
 
+//#nowarn "386"
 open System
 
+//https://stackoverflow.com/a/31283508/4875161
+[<NoComparison>]
+[<CustomEquality>]
 type Complex =
   struct
     val real: double
@@ -25,6 +29,9 @@ type Complex =
 
   member inline z.phase =
     Math.Atan2 (z.imag, z.real)
+
+  interface IEquatable<Complex> with
+    member z.Equals w = (z - w).norm = 1e-5;
 
   override z.ToString() =
     let sign =

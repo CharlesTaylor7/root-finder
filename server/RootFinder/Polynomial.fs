@@ -3,11 +3,19 @@ namespace RootFinder
 open System
 open Complex
 
+[<NoComparison>]
+[<CustomEquality>]
 type Polynomial =
   struct
     val coefficients: Complex array
     new (coefficients) = { coefficients = coefficients}
   end
+
+  interface IEquatable<Polynomial> with
+    member p.Equals q =
+      let sameDegree = p.coefficients.Length = q.coefficients.Length
+      let sameCoefficients = Seq.zip p.coefficients q.coefficients |> Seq.forall (fun (z, w) -> z = w)
+      sameDegree && sameCoefficients
 
   override p.ToString() = "[ " + String.Join(", " , p.coefficients :> seq<_>) + " ]"
 
