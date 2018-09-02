@@ -9,8 +9,8 @@ open System
 [<CustomEquality>]
 type Complex =
   struct
-    val real: double
-    val imag: double
+    val real: float
+    val imag: float
     new (real, imag) =
       { real = real; imag = imag; }
       then
@@ -39,9 +39,9 @@ type Complex =
     String.Format ("{0} {2} {1}*i", z.real, Math.Abs z.imag, sign)
 
   static member op_Explicit (z: Complex) = z
-  static member op_Explicit (d: double) = Complex (d, 0.0)
-  static member op_Explicit (f: float32) = Complex (double f, 0.0)
-  static member op_Explicit (n: int) = Complex (double n, 0.0)
+  static member op_Explicit (d: float) = Complex (d, 0.0)
+  static member op_Explicit (f: float32) = Complex (float f, 0.0)
+  static member op_Explicit (n: int) = Complex (float n, 0.0)
 
   static member inline zero = Complex (0.0, 0.0)
   static member one = Complex (1.0, 0.0)
@@ -51,13 +51,13 @@ type Complex =
     Complex (-z.real, -z.imag)
 
   // Scalar operations
-  static member inline (*) (s: double, z: Complex) =
+  static member inline (*) (s: float, z: Complex) =
     Complex (s * z.real, s * z.imag)
 
   static member inline (*) (s: int, z: Complex) =
-    double s * z
+    float s * z
 
-  static member inline (/) (z: Complex, s: double) =
+  static member inline (/) (z: Complex, s: float) =
     Complex (z.real / s, z.imag / s)
 
   // Field operations
@@ -73,20 +73,19 @@ type Complex =
   static member inline (/) (z1: Complex, z2: Complex) =
     (z1 * z2.conjugate) / z2.normSquared
 
+  static member inline tolerance() = 1e-10
+
   interface IEquatable<Complex> with
-    member z.Equals w = (z - w).norm <= 1e-5
+    member z.Equals w =
+      (z - w).normSquared <= Complex.tolerance()
 
 module Complex =
   // Infix constructor. Looks vaguely like '+ i'.
   let inline (+|) x  y =
-    Complex (double x, double y)
+    Complex (float x, float y)
 
   let inline complex d =
-//  let inline complex (d: ^T when ^T : (static member op_Explicit: ^T -> double)) =
     d +| 0.0
 
   let inline polar r theta =
     r * (Math.Cos theta +| Math.Sin theta)
-
-  let inline equalWithin delta (z1: Complex) (z2: Complex) =
-    (z1 - z2).norm <= delta

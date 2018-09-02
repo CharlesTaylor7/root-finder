@@ -21,12 +21,12 @@ module Solver =
     array.[0] <- -Complex.one
     Polynomial array
 
-  let newton_solve (p: Polynomial) guess delta =
+  let newton_solve (p: Polynomial) guess =
     let d = p.derivative
     let newton z = z - p.eval(z) / d.eval(z)
     let rec iterate z =
       let next = newton z
-      if equalWithin delta z next
+      if z <> next
       then iterate next
       else next
     iterate guess
@@ -58,7 +58,7 @@ module Solver =
       let current = List.head previous
       let t = step i
       let p = interpolate t p_start p_final
-      let next = newton_solve p current delta
+      let next = newton_solve p current
       next :: previous
 
     let steps = seq { 1 .. step_count }
@@ -79,7 +79,7 @@ module Solver =
       let t = step i
 
       let p = interpolate t p_start p_final
-      newton_solve p current delta
+      newton_solve p current
 
     let steps = seq { 1 .. step_count }
 
@@ -87,7 +87,7 @@ module Solver =
 
   let monomial (c: Complex) (n: int) =
     if n < 0
-    then failwith "degree of a monomial should not be negative."
+    then failwith "Degree of a monomial should not be negative."
     else
       let array = Array.zeroCreate (n+1)
       array.[n] <- c

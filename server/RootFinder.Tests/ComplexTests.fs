@@ -10,7 +10,7 @@ open FsUnitTyped
 module ComplexTests =
 
   [<Test>]
-  let ``Complex Addition Test`` () =
+  let ``Complex Addition`` () =
 
     let sum = Complex (2.0, 2.0) + Complex (3.2, -1.1)
     let expected_sum = Complex (5.2, 0.9)
@@ -18,7 +18,7 @@ module ComplexTests =
     sum |> shouldEqual expected_sum
 
   [<Test>]
-  let ``Polar Coordinates Test`` () =
+  let ``Polar Coordinates`` () =
     let r = 7.0
     let theta = 6.6
     let z = polar r theta
@@ -28,7 +28,7 @@ module ComplexTests =
     z.phase |> should (equalWithin 1e-7) (theta % twoPi)
 
   [<Test>]
-  let ``Complex Multiplication Test`` () =
+  let ``Complex Multiplication`` () =
     let r1 = 5
     let theta1 = 4.3
     let z1 = polar r1 theta1

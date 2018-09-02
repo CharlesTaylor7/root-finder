@@ -5,15 +5,14 @@ open RootFinder
 open Polynomial
 open Complex
 open Solver
-open FsUnit
 open System.Linq
 open System
+open FsUnitTyped
 
 module SolverTests =
-  open FsUnitTyped
 
   [<Test>]
-  let ``Test Divide By Derivative``() =
+  let ``Divide By Derivative``() =
     // -1 + x^2
     let p = [| -Complex.one; Complex.zero; Complex.one |] |> Polynomial
     // 2x
@@ -25,11 +24,11 @@ module SolverTests =
 
     let (quotient, remainder) = divideByDerivative p
 
-    quotient |> should equal expected_quotient
-    remainder |> should equal expected_remainder
+    quotient |> shouldEqual expected_quotient
+    remainder |> shouldEqual expected_remainder
 
   [<Test>]
-  let ``Cyclomatic Polynomial Should Have Primitive Roots Of Unity``() =
+  let ``Cyclomatic polynomial should have primitive roots of unity``() =
 
     // x^2 + x + 1.
     // Roots are primitive 3rd roots of -1.
@@ -40,4 +39,15 @@ module SolverTests =
     let angle = 2.0 * Math.PI / 3.0;
     let expected_roots = [| polar 1 angle ; polar 1 (-angle) |]
 
-    roots |> should equal expected_roots
+    roots |> shouldEqual expected_roots
+
+  [<Test>]
+  let ``Solve polynomial where it shares a root with its derivative``() =
+
+    // x^3.
+    let polynomial = monomial Complex.one 3
+    let roots = solve polynomial
+
+    let expected_roots = Array.zeroCreate 3
+
+    roots |> shouldEqual expected_roots
