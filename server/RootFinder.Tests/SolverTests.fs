@@ -51,3 +51,14 @@ module SolverTests =
     let expected_roots = Array.zeroCreate 3
 
     roots |> shouldEqual expected_roots
+
+  [<Test>]
+  let ``Solve quadratic with imaginary roots``() =
+
+    // x^2 + 1
+    let polynomial = [| Complex.one; Complex.zero; Complex.one |] |> Polynomial
+    let roots = solve polynomial
+
+    let expected_roots = [| 0 +| 1; 0 +| -1 |]
+
+    roots |> shouldEqual expected_roots

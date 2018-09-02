@@ -34,16 +34,7 @@ module Solver =
   let inline interpolate t (p1: Polynomial) (p2: Polynomial) =
     (1.0 - t) * p1 + t * p2
 
-  let repeat f x =
-    let mutable x' = x
-    seq {
-      while true do
-        yield x'
-        x' <- f x'
-    }
-
   let step_count = 10
-  let delta = 1e-3
 
   let path (root: Complex) (p_i: Polynomial) (p_f: Polynomial) : Complex list =
     let p_start = p_i
