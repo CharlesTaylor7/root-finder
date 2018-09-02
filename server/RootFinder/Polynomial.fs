@@ -63,6 +63,13 @@ type Polynomial =
         array.[i] <- p1.[i] - p2.[i]
       Polynomial array
 
+  static member (*) (p: Polynomial, q: Polynomial) =
+    let array = Array.zeroCreate (p.degree + q.degree + 1)
+    for i = 0 to array.Length - 1 do
+      for j = Math.Min (i, p.degree) downto Math.Max (0, i - q.degree) do
+        array.[i] <- array.[i] + p.[j] * q.[i - j]
+    Polynomial array
+
 module Polynomial =
   let inline poly seq =
     Seq.map complex seq |> Seq.toArray |> Polynomial
