@@ -12,11 +12,17 @@ open FsUnitTyped
 module SolverTests =
 
   [<Test>]
-  let ``Divide By Derivative``() =
+  let ``Initial roots of initial polynomial`` () =
+    let phase = 2.1
+    let degree = 3
+    let (p, roots) = initial_polynomial_and_roots degree phase
+    Array.forall (fun r -> p.eval(r) = Complex.zero) roots |> shouldEqual true
+
+  [<Test>]
+  let ``Divide By Derivative: x^2 - 1``() =
     // -1 + x^2
     let p = [| -Complex.one; Complex.zero; Complex.one |] |> Polynomial
-    // 2x
-    let d = p.derivative
+    // derivative = 2x
 
     // 0.5*x - 0.5 / x
     let expected_quotient = [| Complex.zero; complex 0.5 |] |> Polynomial
@@ -28,9 +34,22 @@ module SolverTests =
     remainder |> shouldEqual expected_remainder
 
   [<Test>]
-  let ``Cyclomatic polynomial should have primitive roots of unity``() =
+  let ``Divide By Derivative: x ^ 2``() =
 
-    // x^2 + x + 1.
+    let p = monomial Complex.one 2
+
+    // 0.5*x
+    let expected_quotient = [| Complex.zero; complex 0.5 |] |> Polynomial
+    let expected_remainder = [| Complex.zero |] |> Polynomial
+
+    let (quotient, remainder) = divideByDerivative p
+
+    quotient |> shouldEqual expected_quotient
+    remainder |> shouldEqual expected_remainder
+
+  [<Test>]
+  let ``Solve: x^2 + x + 1``() =
+
     // Roots are primitive 3rd roots of -1.
     let coefficients = Array.create 3 <| complex 1.0
     let polynomial = Polynomial coefficients
@@ -39,10 +58,10 @@ module SolverTests =
     let angle = 2.0 * Math.PI / 3.0;
     let expected_roots = [| polar 1 angle ; polar 1 (-angle) |]
 
-    roots |> shouldEqual expected_roots
+    multiset roots |> shouldEqual (multiset expected_roots)
 
   [<Test>]
-  let ``Solve polynomial where it shares a root with its derivative``() =
+  let ``Solve: x^3``() =
 
     // x^3.
     let polynomial = monomial Complex.one 3
@@ -53,7 +72,7 @@ module SolverTests =
     roots |> shouldEqual expected_roots
 
   [<Test>]
-  let ``Solve quadratic with imaginary roots``() =
+  let ``Solve: x^2 + 1``() =
 
     // x^2 + 1
     let polynomial = [| Complex.one; Complex.zero; Complex.one |] |> Polynomial
@@ -61,4 +80,4 @@ module SolverTests =
 
     let expected_roots = [| 0 +| 1; 0 +| -1 |]
 
-    roots |> shouldEqual expected_roots
+    multiset roots |> shouldEqual (multiset expected_roots)

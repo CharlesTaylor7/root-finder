@@ -3,6 +3,7 @@ namespace RootFinder
 open System
 open Complex
 open Utilities
+open System.Linq
 
 [<NoComparison>]
 [<CustomEquality>]
@@ -16,7 +17,22 @@ type Polynomial =
     member p.Equals q =
       sequence_equal p.coefficients q.coefficients
 
-  override p.ToString() = "[ " + String.Join(", " , p.coefficients :> seq<_>) + " ]"
+  override p.ToString() =
+    let format_monomial i =
+      match i with
+      | 0 -> ""
+      | 1 -> " * x"
+      | n -> String.Format(" * x^{0}", n)
+
+    let formatted =
+      String.Join(" + " , p.coefficients
+        .Select(fun z n -> struct (z, n))
+        .Where(fun struct (z, _) -> z <> Complex.zero)
+        .Select(fun struct (z, n) -> "(" + z.ToString() + ")" + format_monomial n))
+
+    if formatted = ""
+    then "0"
+    else formatted
 
   member inline p.degree =
     p.coefficients.Length - 1

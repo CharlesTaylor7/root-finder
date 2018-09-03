@@ -21,6 +21,17 @@ module Solver =
     array.[0] <- -Complex.one
     Polynomial array
 
+  let initial_polynomial_and_roots n phase =
+    let gamma = polar 1 phase
+    let roots = roots_of_unity n
+    let rotated_roots = Seq.map (fun r -> gamma * r) roots
+
+    let coefficient = polar (-1) (float n * phase)
+    let array = Array.zeroCreate (n + 1)
+    array.[n] <- Complex.one
+    array.[0] <- coefficient
+    (Polynomial array, Seq.toArray rotated_roots)
+
   let newton_solve (p: Polynomial) guess =
     let d = p.derivative
     let newton z = z - p.eval(z) / d.eval(z)
@@ -57,10 +68,13 @@ module Solver =
     let path = Seq.fold reducer [root] steps
     path
 
+  open System
+  let random = new Random()
+
   let solve (p: Polynomial) =
     let n = p.degree
-    let roots = roots_of_unity n |> Seq.toArray
-    let p_start = polynomial_of_unity n
+    let phase = random.NextDouble()
+    let (p_start, roots) = initial_polynomial_and_roots n phase
     let p_final = p
 
     let inline step i =
@@ -92,21 +106,13 @@ module Solver =
     f p.coefficients |> Polynomial
 
   let timesMonomial (n: int) (p: Polynomial) =
-    let array = Array.zeroCreate (p.coefficients.Length + n)
+    let array = Array.zeroCreate (p.degree + n + 1)
     for i = 0 to p.degree do
       array.[i + n] <- p.[i]
     Polynomial array
 
-  let divideByDerivative (p: Polynomial) =
+  let divideByDerivative (p: Polynomial): Polynomial * Polynomial =
     let d = p.derivative
-    let mutable q = [| Complex.zero |] |> Polynomial
-    let mutable r = p
-    // At each step p = d * q + r
-    while r.degree >= d.degree do
-      // Divide the leading terms
-      let z = leadCoefficient r / leadCoefficient d
-      let n = r.degree - d.degree
-      let t = monomial z n
-      q <- q + t
-      r <- minusLeadTerm r - timesMonomial n (z * (minusLeadTerm d))
-    (q, r)
+    let linearTerm = leadCoefficient p / leadCoefficient d
+    failwith "Not Implemented"
+//    (linearTerm, Complex.zero, Complex.zero)

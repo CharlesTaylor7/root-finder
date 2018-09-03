@@ -36,7 +36,7 @@ type Complex =
       if Double.IsNaN z.imag || Math.Sign z.imag >= 0
       then '+'
       else '-'
-    String.Format ("{0} {2} {1}*i", z.real, Math.Abs z.imag, sign)
+    String.Format ("{0} {2} {1}*i", Math.Round(z.real, 10), Math.Round(Math.Abs z.imag, 10), sign)
 
   static member op_Explicit (z: Complex) = z
   static member op_Explicit (d: float) = Complex (d, 0.0)
