@@ -49,6 +49,9 @@ type Polynomial =
       array.[i] <- (i + 1) * p.[i + 1]
     Polynomial array
 
+  member p.leadCoefficient =
+    p.coefficients.[p.degree]
+
   // Horner's Rule
   member p.eval(z: Complex) =
     let mutable total = Complex.zero
@@ -82,7 +85,7 @@ type Polynomial =
   static member (*) (p: Polynomial, q: Polynomial) =
     let array = Array.zeroCreate (p.degree + q.degree + 1)
     for i = 0 to array.Length - 1 do
-      for j = Math.Min (i, p.degree) downto Math.Max (0, i - q.degree) do
+      for j = 0 to i do
         array.[i] <- array.[i] + p.[j] * q.[i - j]
     Polynomial array
 

@@ -35,7 +35,6 @@ module Solver =
   let newton_solve (p: Polynomial) guess =
     let d = p.derivative
     let (q, r) = p / p.derivative
-    printfn "q = %O, r = %O" q r
     let newton z =
       let lastTerm =
         if r.degree = 0 && r.[0] = Complex.zero
