@@ -34,7 +34,15 @@ module Solver =
 
   let newton_solve (p: Polynomial) guess =
     let d = p.derivative
-    let newton z = z - p.eval(z) / d.eval(z)
+    let (q, r) = p / p.derivative
+    printfn "q = %O, r = %O" q r
+    let newton z =
+      let lastTerm =
+        if r.degree = 0 && r.[0] = Complex.zero
+        then Complex.zero
+        else r.eval(z) / d.eval(z)
+      z - (q.eval(z) + lastTerm)
+
     let rec iterate z =
       let next = newton z
       if z <> next
@@ -97,22 +105,3 @@ module Solver =
       let array = Array.zeroCreate (n+1)
       array.[n] <- c
       Polynomial array
-
-  let leadCoefficient (p: Polynomial) =
-    Array.last p.coefficients
-
-  let minusLeadTerm (p: Polynomial) =
-    let f = Array.rev >> Array.tail >> Array.rev
-    f p.coefficients |> Polynomial
-
-  let timesMonomial (n: int) (p: Polynomial) =
-    let array = Array.zeroCreate (p.degree + n + 1)
-    for i = 0 to p.degree do
-      array.[i + n] <- p.[i]
-    Polynomial array
-
-  let divideByDerivative (p: Polynomial): Polynomial * Polynomial =
-    let d = p.derivative
-    let linearTerm = leadCoefficient p / leadCoefficient d
-    failwith "Not Implemented"
-//    (linearTerm, Complex.zero, Complex.zero)

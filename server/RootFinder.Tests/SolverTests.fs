@@ -28,10 +28,9 @@ module SolverTests =
     let expected_quotient = [| Complex.zero; complex 0.5 |] |> Polynomial
     let expected_remainder = [| complex -0.5 |] |> Polynomial
 
-    let (quotient, remainder) = divideByDerivative p
+    let (quotient, remainder) = p / p.derivative
 
-    quotient |> shouldEqual expected_quotient
-    remainder |> shouldEqual expected_remainder
+    quotient * p.derivative + remainder |> shouldEqual p
 
   [<Test>]
   let ``Divide By Derivative: x ^ 2``() =
@@ -42,7 +41,7 @@ module SolverTests =
     let expected_quotient = [| Complex.zero; complex 0.5 |] |> Polynomial
     let expected_remainder = [| Complex.zero |] |> Polynomial
 
-    let (quotient, remainder) = divideByDerivative p
+    let (quotient, remainder) = p / p.derivative
 
     quotient |> shouldEqual expected_quotient
     remainder |> shouldEqual expected_remainder
