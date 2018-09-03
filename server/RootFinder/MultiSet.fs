@@ -14,6 +14,9 @@ type MultiSet<'a when 'a :> IEquatable<'a> and 'a : equality> =
     new (items: 'a seq) = { groups = Seq.groupBy id items |> Seq.map (fun (x, g) -> (x, g.Count())) |> Seq.toArray }
   end
 
+  override s.ToString() =
+    sprintf "%A" s.groups
+
   member inline s.NumberDistinct =
     s.groups.Count
 

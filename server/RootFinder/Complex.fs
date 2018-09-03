@@ -18,12 +18,12 @@ type Complex =
   member inline z.conjugate =
     Complex (z.real, -z.imag)
 
-  member inline z.normSquared =
+  member inline z.norm_squared =
     z.real * z.real + z.imag * z.imag;
 
   // Loss of precision
   member inline z.norm =
-    z.normSquared |> float |> sqrt
+    z.norm_squared |> float |> sqrt
 
   // Loss of precision
   member inline z.phase =
@@ -66,13 +66,16 @@ type Complex =
     Complex (z1.real * z2.real - z1.imag * z2.imag, z1.real * z2.imag + z1.imag * z2.real);
 
   static member inline (/) (z1: Complex, z2: Complex) =
-    (z1 * z2.conjugate) / z2.normSquared
+    (z1 * z2.conjugate) / z2.norm_squared
 
-  static member inline tolerance() = 1e-10m
+  static member inline default_tolerance = 1e-10m
+
+  static member inline equal_within delta (z: Complex) (w: Complex) =
+     (z - w).norm_squared <= delta
 
   interface IEquatable<Complex> with
     member z.Equals w =
-      (z - w).normSquared <= Complex.tolerance()
+      Complex.equal_within Complex.default_tolerance z w
 
 [<AutoOpen>]
 module Complex =
@@ -85,3 +88,6 @@ module Complex =
 
   let inline polar (r: ^T) theta =
     r * (Math.Cos theta +| Math.Sin theta)
+
+  let inline equal_within delta z w =
+    Complex.equal_within delta z w
