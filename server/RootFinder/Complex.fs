@@ -9,8 +9,8 @@ open System
 [<CustomEquality>]
 type Complex =
   struct
-    val real: decimal
-    val imag: decimal
+    val real: float
+    val imag: float
     new (real, imag) =
       { real = real; imag = imag; }
   end
@@ -37,12 +37,12 @@ type Complex =
     String.Format ("{0} {2} {1}*i", Math.Round(z.real, 10), Math.Round(Math.Abs z.imag, 10), sign)
 
   static member inline op_Explicit (z: Complex) = z
-  static member inline op_Explicit (d: float) = Complex (decimal d, 0m)
-  static member inline op_Explicit (f: float32) = Complex (decimal f, 0m)
-  static member inline op_Explicit (n: int) = Complex (decimal n, 0m)
+  static member inline op_Explicit (d: float) = Complex (float d, 0.0)
+  static member inline op_Explicit (f: float32) = Complex (float f, 0.0)
+  static member inline op_Explicit (n: int) = Complex (float n, 0.0)
 
-  static member inline zero = Complex (0m, 0m)
-  static member inline one = Complex (1m, 0m)
+  static member inline zero = Complex (0.0, 0.0)
+  static member inline one = Complex (1.0, 0.0)
 
   // Unary negation
   static member inline (~-) (z: Complex) =
@@ -50,10 +50,10 @@ type Complex =
 
   // Scalar operations
   static member inline (*) (s: ^T, z: Complex) =
-    Complex (decimal s * z.real, decimal s * z.imag)
+    Complex (float s * z.real, float s * z.imag)
 
   static member inline (/) (z: Complex, s: ^T) =
-    Complex (z.real / decimal s, z.imag / decimal s)
+    Complex (z.real / float s, z.imag / float s)
 
   // Field operations
   static member inline (+) (z1: Complex, z2: Complex) =
@@ -68,7 +68,7 @@ type Complex =
   static member inline (/) (z1: Complex, z2: Complex) =
     (z1 * z2.conjugate) / z2.norm_squared
 
-  static member inline default_tolerance = 1e-10m
+  static member inline default_tolerance = 1e-10
 
   static member inline equal_within delta (z: Complex) (w: Complex) =
      (z - w).norm_squared <= delta
@@ -81,7 +81,7 @@ type Complex =
 module Complex =
   // Infix constructor. Looks vaguely like '+ i'.
   let inline (+|) x  y =
-    Complex (decimal x, decimal y)
+    Complex (float x, float y)
 
   let inline complex d =
     d +| 0

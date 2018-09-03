@@ -12,8 +12,8 @@ module ComplexTests =
   [<Test>]
   let ``Complex Addition`` () =
 
-    let sum = Complex (2.0m, 2.0m) + Complex (3.2m, -1.1m)
-    let expected_sum = Complex (5.2m, 0.9m)
+    let sum = Complex (2.0, 2.0) + Complex (3.2, -1.1)
+    let expected_sum = Complex (5.2, 0.9)
 
     sum |> shouldEqual expected_sum
 

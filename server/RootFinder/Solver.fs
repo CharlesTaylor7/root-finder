@@ -42,7 +42,7 @@ module Solver =
         else r.eval(z) / d.eval(z)
       z - (q.eval(z) + lastTerm)
 
-    let tolerance = 0.1m * Complex.default_tolerance
+    let tolerance = 0.1 * Complex.default_tolerance
 
     let rec iterate z =
       let next = newton z
@@ -52,7 +52,7 @@ module Solver =
     iterate guess
 
   let inline interpolate t (p1: Polynomial) (p2: Polynomial) =
-    (1.0m - t) * p1 + t * p2
+    (1.0 - t) * p1 + t * p2
 
   let step_count = 10
 
@@ -63,7 +63,7 @@ module Solver =
     let delta = 1e-3
 
     let inline step i =
-      decimal i / decimal step_count
+      float i / float step_count
 
     let reducer (previous: Complex list) (i: int) =
       let current = List.head previous
@@ -87,7 +87,7 @@ module Solver =
     let p_final = p
 
     let inline step i =
-      decimal i / decimal step_count
+      float i / float step_count
 
     let reducer (current: Complex) (i: int) =
       let t = step i
