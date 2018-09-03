@@ -79,6 +79,7 @@ type Complex =
     member z.Equals w =
       (z - w).normSquared <= Complex.tolerance()
 
+[<AutoOpen>]
 module Complex =
   // Infix constructor. Looks vaguely like '+ i'.
   let inline (+|) x  y =
