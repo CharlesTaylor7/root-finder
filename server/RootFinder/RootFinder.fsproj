@@ -6,13 +6,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="RebindEquals.fs" />
-    <Compile Include="MultiSet.fs" />
-    <Compile Include="Utilities.fs" />
-    <Compile Include="Complex.fs" />
-    <Compile Include="Polynomial.fs" />
     <Compile Include="Solver.fs" />
-    <Compile Include="Function.fs" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.2.0" />
@@ -23,8 +17,5 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="aws-lambda-tools-defaults.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Script.fsx" />
   </ItemGroup>
 </Project>
