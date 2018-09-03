@@ -9,56 +9,51 @@ open System
 [<CustomEquality>]
 type Complex =
   struct
-    val real: float
-    val imag: float
+    val real: decimal
+    val imag: decimal
     new (real, imag) =
       { real = real; imag = imag; }
-      then
-        if Double.IsNaN real || Double.IsNaN imag
-        then failwith "Complex number should not have NaN as a component value."
-        else ()
   end
-
-  member inline z.normSquared =
-   z.real * z.real + z.imag * z.imag;
-
-  member inline z.norm =
-    Math.Sqrt z.normSquared
 
   member inline z.conjugate =
     Complex (z.real, -z.imag)
 
+  member inline z.normSquared =
+    z.real * z.real + z.imag * z.imag;
+
+  // Loss of precision
+  member inline z.norm =
+    z.normSquared |> float |> sqrt
+
+  // Loss of precision
   member inline z.phase =
-    Math.Atan2 (z.imag, z.real)
+    Math.Atan2 (float z.imag, float z.real)
 
   override z.ToString() =
     let sign =
-      if Double.IsNaN z.imag || Math.Sign z.imag >= 0
+      if Math.Sign z.imag >= 0
       then '+'
       else '-'
     String.Format ("{0} {2} {1}*i", Math.Round(z.real, 10), Math.Round(Math.Abs z.imag, 10), sign)
 
-  static member op_Explicit (z: Complex) = z
-  static member op_Explicit (d: float) = Complex (d, 0.0)
-  static member op_Explicit (f: float32) = Complex (float f, 0.0)
-  static member op_Explicit (n: int) = Complex (float n, 0.0)
+  static member inline op_Explicit (z: Complex) = z
+  static member inline op_Explicit (d: float) = Complex (decimal d, 0m)
+  static member inline op_Explicit (f: float32) = Complex (decimal f, 0m)
+  static member inline op_Explicit (n: int) = Complex (decimal n, 0m)
 
-  static member inline zero = Complex (0.0, 0.0)
-  static member one = Complex (1.0, 0.0)
+  static member inline zero = Complex (0m, 0m)
+  static member inline one = Complex (1m, 0m)
 
   // Unary negation
   static member inline (~-) (z: Complex) =
     Complex (-z.real, -z.imag)
 
   // Scalar operations
-  static member inline (*) (s: float, z: Complex) =
-    Complex (s * z.real, s * z.imag)
+  static member inline (*) (s: ^T, z: Complex) =
+    Complex (decimal s * z.real, decimal s * z.imag)
 
-  static member inline (*) (s: int, z: Complex) =
-    float s * z
-
-  static member inline (/) (z: Complex, s: float) =
-    Complex (z.real / s, z.imag / s)
+  static member inline (/) (z: Complex, s: ^T) =
+    Complex (z.real / decimal s, z.imag / decimal s)
 
   // Field operations
   static member inline (+) (z1: Complex, z2: Complex) =
@@ -73,7 +68,7 @@ type Complex =
   static member inline (/) (z1: Complex, z2: Complex) =
     (z1 * z2.conjugate) / z2.normSquared
 
-  static member inline tolerance() = 1e-10
+  static member inline tolerance() = 1e-10m
 
   interface IEquatable<Complex> with
     member z.Equals w =
@@ -83,10 +78,10 @@ type Complex =
 module Complex =
   // Infix constructor. Looks vaguely like '+ i'.
   let inline (+|) x  y =
-    Complex (float x, float y)
+    Complex (decimal x, decimal y)
 
   let inline complex d =
-    d +| 0.0
+    d +| 0
 
-  let inline polar r theta =
+  let inline polar (r: ^T) theta =
     r * (Math.Cos theta +| Math.Sin theta)

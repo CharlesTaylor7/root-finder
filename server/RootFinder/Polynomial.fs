@@ -62,10 +62,10 @@ type Polynomial =
   static member (*) (s: Complex, p: Polynomial) =
     Polynomial <| Array.map (fun z -> s * z) p.coefficients
 
-  static member (*) (s: double, p: Polynomial) =
+  static member (*) (s: decimal, p: Polynomial) =
     Polynomial <| Array.map (fun z -> s * z) p.coefficients
 
-  static member (/) (p: Polynomial, s: double) =
+  static member (/) (p: Polynomial, s: decimal) =
     Polynomial <| Array.map (fun z -> z / s) p.coefficients
 
   static member (+) (p1: Polynomial, p2: Polynomial) =
