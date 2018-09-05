@@ -81,8 +81,6 @@ module SolverTests =
 
     roots |> shouldEqual expected_roots
 
-// Tests fail because polynomials are very ill conditioned
-// Need to read up on pre conditioning
   [<Test>]
   let ``Solve: x^10``() =
 
@@ -94,6 +92,8 @@ module SolverTests =
 
     roots |> shouldEqual expected_roots
 
+// Tests fail because polynomials are very ill conditioned
+// Need to read up on pre conditioning
   [<Test>]
   let ``Solve: Wilkinson's Polynomial``() =
 
