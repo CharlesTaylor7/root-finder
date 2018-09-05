@@ -21,14 +21,6 @@ type FSCheckTests () =
     for i = 0 to roots.Length - 1 do
       p.eval(roots.[i]) |> shouldEqual Complex.zero
 
-    let mutable flag = false
-    for (key, group) in Seq.groupBy id roots do
-      if group.Count() <> 1
-      then printfn "%O" key; flag <- true
-      else ()
-
-    flag |> shouldEqual false
-
   // Ignored for now
   // Polynomial product propagates too much error for even small degree polynomials.
 //  [<Property>]
