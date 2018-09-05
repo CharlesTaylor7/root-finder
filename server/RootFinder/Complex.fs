@@ -21,13 +21,11 @@ type Complex =
   member inline z.norm_squared =
     z.real * z.real + z.imag * z.imag;
 
-  // Loss of precision
   member inline z.norm =
-    z.norm_squared |> float |> sqrt
+    sqrt z.norm_squared
 
-  // Loss of precision
   member inline z.phase =
-    Math.Atan2 (float z.imag, float z.real)
+    Math.Atan2 (z.imag, z.real)
 
   override z.ToString() =
     let sign =
