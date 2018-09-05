@@ -47,8 +47,8 @@ module Solver =
     let rec iterate z =
       let next = newton z
       if equal_within tolerance z next
-      then iterate next
-      else next
+      then next
+      else iterate next
     iterate guess
 
   let inline interpolate t (p1: Polynomial) (p2: Polynomial) =
