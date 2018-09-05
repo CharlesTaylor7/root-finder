@@ -59,18 +59,6 @@ module SolverTests =
 
     multiset roots |> shouldEqual (multiset expected_roots)
 
-//  [<Test>]
-  // Polynomials with Multi roots are ill conditioned. Need to read up on preconditioning.
-  let ``Solve: x^3``() =
-
-    // x^3.
-    let polynomial = monomial Complex.one 3
-    let roots = solve polynomial
-
-    let expected_roots = Array.zeroCreate 3
-
-    roots |> shouldEqual expected_roots
-
   [<Test>]
   let ``Solve: x^2 + 1``() =
 
@@ -81,3 +69,42 @@ module SolverTests =
     let expected_roots = [| 0 +| 1; 0 +| -1 |]
 
     multiset roots |> shouldEqual (multiset expected_roots)
+
+  [<Test>]
+  let ``Solve: x^3``() =
+
+    // x^3.
+    let polynomial = monomial Complex.one 3
+    let roots = solve polynomial
+
+    let expected_roots = Array.zeroCreate 3
+
+    roots |> shouldEqual expected_roots
+
+// Tests fail because polynomials are very ill conditioned
+// Need to read up on pre conditioning
+  [<Test>]
+  let ``Solve: x^10``() =
+
+    // x^10.
+    let polynomial = monomial Complex.one 10
+    let roots = solve polynomial
+
+    let expected_roots = Array.zeroCreate 10
+
+    roots |> shouldEqual expected_roots
+
+  [<Test>]
+  let ``Solve: Wilkinson's Polynomial``() =
+
+    let terms = seq {
+      for i in 1..20 do
+      yield Polynomial [| -i +| 0; 1 +| 0 |]
+    }
+
+    let product = Seq.fold (fun p q -> p * q) Polynomial.one terms
+
+    printfn "%A" product
+    let roots = solve product
+
+    roots |> shouldEqual (seq {1..20} |> Seq.map complex |> Seq.toArray)

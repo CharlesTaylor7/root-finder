@@ -59,6 +59,9 @@ type Polynomial =
       total <- p.[i] + z * total
     total
 
+  static member inline one = Polynomial [| 1 +| 0 |]
+  static member inline zero = Polynomial [| 0 +| 0 |]
+
   static member (*) (s: Complex, p: Polynomial) =
     Polynomial <| Array.map (fun z -> s * z) p.coefficients
 

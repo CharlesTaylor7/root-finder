@@ -42,7 +42,7 @@ module Solver =
         else r.eval(z) / d.eval(z)
       z - (q.eval(z) + lastTerm)
 
-    let tolerance = 0.1 * Complex.default_tolerance
+    let tolerance = 1e-3 * Complex.default_tolerance
 
     let rec iterate z =
       let next = newton z
