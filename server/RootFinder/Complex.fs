@@ -32,7 +32,7 @@ type Complex =
       if Math.Sign z.imag >= 0
       then '+'
       else '-'
-    String.Format ("{0} {2} {1}*i", Math.Round(z.real, 10), Math.Round(Math.Abs z.imag, 10), sign)
+    String.Format ("{0} {2} {1}*i", z.real, Math.Abs z.imag, sign)
 
   static member inline op_Explicit (z: Complex) = z
   static member inline op_Explicit (d: float) = Complex (float d, 0.0)

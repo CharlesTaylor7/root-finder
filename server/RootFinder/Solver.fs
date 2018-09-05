@@ -57,27 +57,6 @@ module Solver =
 
   let step_count = 10
 
-  let path (root: Complex) (p_i: Polynomial) (p_f: Polynomial) : Complex list =
-    let p_start = p_i
-    let p_final = p_f
-    let step_count = 10
-    let delta = 1e-3
-
-    let inline step i =
-      float i / float step_count
-
-    let reducer (previous: Complex list) (i: int) =
-      let current = List.head previous
-      let t = step i
-      let p = interpolate t p_start p_final
-      let next = newton_solve p current
-      next :: previous
-
-    let steps = seq { 1 .. step_count }
-
-    let path = Seq.fold reducer [root] steps
-    path
-
   open System
   let random = new Random()
 
@@ -92,13 +71,13 @@ module Solver =
 
     let reducer (current: Complex) (i: int) =
       let t = step i
-
       let p = interpolate t p_start p_final
       newton_solve p current
 
     let steps = seq { 1 .. step_count }
 
-    Array.map (fun root -> Seq.fold reducer root steps) roots
+    let trace root = Seq.fold reducer root steps
+    Array.map trace roots
 
   let monomial (c: Complex) (n: int) =
     if n < 0
