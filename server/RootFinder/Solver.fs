@@ -42,13 +42,14 @@ module Solver =
         else r.eval(z) / d.eval(z)
       z - (q.eval(z) + lastTerm)
 
-    let tolerance = 1e-3 * Complex.default_tolerance
+    let tolerance = 1e-15
 
     let rec iterate z =
       let next = newton z
       if equal_within tolerance z next
       then next
       else iterate next
+
     iterate guess
 
   let inline interpolate t (p1: Polynomial) (p2: Polynomial) =
