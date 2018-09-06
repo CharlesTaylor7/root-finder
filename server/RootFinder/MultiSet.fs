@@ -3,15 +3,15 @@ namespace RootFinder
 open System
 open System.Linq
 open System.Collections.Generic
+open Utilities
 
-type 'a collection = 'a IReadOnlyCollection
 
 [<NoComparison>]
 [<CustomEquality>]
 type MultiSet<'a when 'a :> IEquatable<'a> and 'a : equality> =
   struct
     val groups: ('a * int) collection
-    new (items: 'a seq) = { groups = Seq.groupBy id items |> Seq.map (fun (x, g) -> (x, g.Count())) |> Seq.toArray }
+    new (items: 'a seq) = { groups = group_by id items |> Seq.map (fun struct (x, g) -> (x, g.Count)) |> Seq.toArray }
   end
 
   override s.ToString() =

@@ -7,8 +7,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="RebindEquals.fs" />
-    <Compile Include="MultiSet.fs" />
     <Compile Include="Utilities.fs" />
+    <Compile Include="MultiSet.fs" />
     <Compile Include="Complex.fs" />
     <Compile Include="Polynomial.fs" />
     <Compile Include="Solver.fs" />

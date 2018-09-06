@@ -71,6 +71,18 @@ module SolverTests =
     multiset roots |> shouldEqual (multiset expected_roots)
 
   [<Test>]
+  let ``Solve: x^3 + x^2``() =
+
+    // x^3 + x^2
+    let polynomial = [| Complex.zero; Complex.zero; Complex.one; Complex.one |] |> Polynomial
+    let roots = solve polynomial
+
+    let expected_roots = [| Complex.zero; Complex.zero; -Complex.one; |]
+
+    multiset roots |> shouldEqual (multiset expected_roots)
+
+
+  [<Test>]
   let ``Solve: x^3``() =
 
     // x^3.
@@ -98,7 +110,7 @@ module SolverTests =
   let ``Solve: Wilkinson's Polynomial``() =
 
     let terms = seq {
-      for i in 1..20 do
+      for i in 1 .. 20 do
       yield Polynomial [| -i +| 0; 1 +| 0 |]
     }
 
@@ -106,5 +118,5 @@ module SolverTests =
 
     printfn "%A" product
     let roots = solve product
-
-    roots |> shouldEqual (seq {1..20} |> Seq.map complex |> Seq.toArray)
+    let expected_roots = seq {1 .. 20} |> Seq.map complex
+    multiset roots |> shouldEqual (multiset expected_roots)
