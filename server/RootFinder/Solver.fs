@@ -32,7 +32,9 @@ module Solver =
     array.[0] <- coefficient
     (Polynomial array, Seq.toArray rotated_roots)
 
-  let newton_solve (p: Polynomial) guess =
+  type IterationCount = int
+
+  let newton_solve (p: Polynomial) guess : Complex * IterationCount =
     let d = p.derivative
     let (q, r) = p / p.derivative
     let newton z =
@@ -44,13 +46,13 @@ module Solver =
 
     let tolerance = 1e-15
 
-    let rec iterate z =
+    let rec iterate z i =
       let next = newton z
       if equal_within tolerance z next
-      then next
-      else iterate next
+      then (next, i)
+      else iterate next (i + 1)
 
-    iterate guess
+    iterate guess 1
 
   let inline interpolate t (p1: Polynomial) (p2: Polynomial) =
     (1.0 - t) * p1 + t * p2
@@ -60,29 +62,32 @@ module Solver =
   open System
   let random = new Random()
 
-  let solve (p: Polynomial) =
+  let solve_with_counts (p: Polynomial) : (Complex * IterationCount) array  =
     let n = p.degree
     let phase = random.NextDouble()
-    let (p_start, roots) = initial_polynomial_and_roots n phase
-    let p_final = p
+    let (p_i, roots) = initial_polynomial_and_roots n phase
+    let p_f = p
 
     let inline step i =
       float i / float step_count
 
-    let reducer (current: Complex) (i: int) =
+    let reducer (z: Complex, n: IterationCount) (i: int) =
       let t = step i
-      let p = interpolate t p_start p_final
-      newton_solve p current
+      let p = interpolate t p_i p_f
+
+      let dz_dt =
+        let numerator = (p_i - p_f)
+        let denominator = ((1.0 - t) * p_i.derivative + t * p_f.derivative)
+        numerator.eval(z) / denominator.eval(z)
+
+      let z_prime = z + t * dz_dt
+      let (z_next, count) = newton_solve p z_prime
+      (z_next, count + n)
 
     let steps = seq { 1 .. step_count }
 
     let trace root = Seq.fold reducer root steps
-    Array.map trace roots
+    Array.map ((fun r -> (r, 0)) >> trace) roots
 
-  let monomial (c: Complex) (n: int) =
-    if n < 0
-    then failwith "Degree of a monomial should not be negative."
-    else
-      let array = Array.zeroCreate (n+1)
-      array.[n] <- c
-      Polynomial array
+  let solve (p: Polynomial) : Complex array =
+    solve_with_counts p |> Array.map fst

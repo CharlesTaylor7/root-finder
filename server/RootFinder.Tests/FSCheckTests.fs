@@ -18,8 +18,15 @@ type FSCheckTests () =
 
     roots |> shouldHaveLength p.degree
 
+    solve_with_counts p |> Array.map (snd >> printfn "%O") |> ignore
+
     for i = 0 to roots.Length - 1 do
       p.eval(roots.[i]) |> shouldEqual Complex.zero
+
+  [<Property>]
+  static member ``Trace Random Polynomials`` (p: Polynomial) =
+
+    solve_with_counts p |> Array.map (snd >> printfn "%O") |> ignore
 
   // Ignored for now
   // Polynomial product propagates too much error for even small degree polynomials.

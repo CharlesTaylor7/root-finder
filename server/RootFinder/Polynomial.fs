@@ -92,15 +92,15 @@ type Polynomial =
         array.[i] <- array.[i] + p.[j] * q.[i - j]
     Polynomial array
 
-  static member (/) (p: Polynomial, d: Polynomial): Polynomial * Polynomial =
-    let monomial (c: Complex) (n: int) =
-      if n < 0
-      then failwith "Degree of a monomial should not be negative."
-      else
-        let array = Array.zeroCreate (n+1)
-        array.[n] <- c
-        Polynomial array
+  static member monomial (c: Complex) (n: int) =
+    if n < 0
+    then failwith "Degree of a monomial should not be negative."
+    else
+      let array = Array.zeroCreate (n+1)
+      array.[n] <- c
+      Polynomial array
 
+  static member (/) (p: Polynomial, d: Polynomial): Polynomial * Polynomial =
     let leadCoefficient (p: Polynomial) =
       Array.last p.coefficients
 
@@ -117,11 +117,10 @@ type Polynomial =
     let mutable r = p
 
     while r.degree >= b.degree do
-      let s = monomial (leadCoefficient r / c) (r.degree - b.degree)
+      let s = Polynomial.monomial (leadCoefficient r / c) (r.degree - b.degree)
       q <- q + s
       r <- (r - (s * b)) |> minusLeadTerm
     (q, r)
 
 module Polynomial =
-  let inline poly seq =
-    Seq.map complex seq |> Seq.toArray |> Polynomial
+  let inline monomial c n = Polynomial.monomial c n
