@@ -28,7 +28,7 @@ module SolverTests =
     let expected_quotient = [| Complex.zero; complex 0.5 |] |> Polynomial
     let expected_remainder = [| complex -0.5 |] |> Polynomial
 
-    let (quotient, remainder) = p / p.derivative
+    let (quotient, remainder, _) = p / p.derivative
 
     quotient * p.derivative + remainder |> shouldEqual p
 
@@ -41,7 +41,7 @@ module SolverTests =
     let expected_quotient = [| Complex.zero; complex 0.5 |] |> Polynomial
     let expected_remainder = [| Complex.zero |] |> Polynomial
 
-    let (quotient, remainder) = p / p.derivative
+    let (quotient, remainder, _) = p / p.derivative
 
     quotient |> shouldEqual expected_quotient
     remainder |> shouldEqual expected_remainder

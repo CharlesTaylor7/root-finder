@@ -5,9 +5,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ComplexTests.fs" />
     <Compile Include="ArbitraryInstances.fs" />
     <Compile Include="FSCheckTests.fs" />
+    <Compile Include="ComplexTests.fs" />
     <Compile Include="PolynomialTests.fs" />
     <Compile Include="SolverTests.fs" />
   </ItemGroup>

@@ -100,7 +100,7 @@ type Polynomial =
       array.[n] <- c
       Polynomial array
 
-  static member (/) (p: Polynomial, d: Polynomial): Polynomial * Polynomial =
+  static member (/) (p: Polynomial, d: Polynomial): Polynomial * Polynomial * Polynomial=
     let leadCoefficient (p: Polynomial) =
       Array.last p.coefficients
 
@@ -120,7 +120,20 @@ type Polynomial =
       let s = Polynomial.monomial (leadCoefficient r / c) (r.degree - b.degree)
       q <- q + s
       r <- (r - (s * b)) |> minusLeadTerm
-    (q, r)
+    (q, r, d)
 
+[<AutoOpen>]
 module Polynomial =
+
   let inline monomial c n = Polynomial.monomial c n
+
+  type Quotient = Polynomial
+  type Remainder = Polynomial
+  type Divisor = Polynomial
+
+  let safe_eval (q: Quotient, r: Remainder, d: Divisor) (z: Complex) : Complex =
+    let lastTerm =
+      if r = Polynomial.zero
+      then Complex.zero
+      else r.eval(z) / d.eval(z)
+    q.eval(z) + lastTerm

@@ -36,13 +36,9 @@ module Solver =
 
   let newton_solve (p: Polynomial) guess : Complex * IterationCount =
     let d = p.derivative
-    let (q, r) = p / p.derivative
+    let f = safe_eval(p / p.derivative)
     let newton z =
-      let lastTerm =
-        if r.degree = 0 && r.[0] = Complex.zero
-        then Complex.zero
-        else r.eval(z) / d.eval(z)
-      z - (q.eval(z) + lastTerm)
+      z - (f z)
 
     let tolerance = 1e-15
 
@@ -74,13 +70,14 @@ module Solver =
     let reducer (z: Complex, n: IterationCount) (i: int) =
       let t = step i
       let p = interpolate t p_i p_f
+      let dt = step 1
 
       let dz_dt =
-        let numerator = (p_i - p_f)
-        let denominator = ((1.0 - t) * p_i.derivative + t * p_f.derivative)
-        numerator.eval(z) / denominator.eval(z)
+        let numerator = p_i - p_f
+        let denominator = (1.0 - t) * p_i.derivative + t * p_f.derivative
+        safe_eval (numerator / denominator) z
 
-      let z_prime = z + t * dz_dt
+      let z_prime = z + dt * dz_dt
       let (z_next, count) = newton_solve p z_prime
       (z_next, count + n)
 
