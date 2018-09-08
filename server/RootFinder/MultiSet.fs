@@ -5,7 +5,6 @@ open System.Linq
 open System.Collections.Generic
 open Utilities
 
-
 [<NoComparison>]
 [<CustomEquality>]
 type MultiSet<'a when 'a :> IEquatable<'a> and 'a : equality> =
