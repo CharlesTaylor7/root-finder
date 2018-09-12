@@ -2,13 +2,14 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <IsPackable>false</IsPackable>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ArbitraryInstances.fs" />
     <Compile Include="FSCheckTests.fs" />
     <Compile Include="ComplexTests.fs" />
     <Compile Include="PolynomialTests.fs" />
+    <Compile Include="SerializerTests.fs" />
     <Compile Include="SolverTests.fs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,46 @@
+[1mdiff --git a/server/RootFinder.Tests/RootFinder.Tests.fsproj b/server/RootFinder.Tests/RootFinder.Tests.fsproj[m
+[1mindex 8545ba3..461f833 100644[m
+[1m--- a/server/RootFinder.Tests/RootFinder.Tests.fsproj[m
+[1m+++ b/server/RootFinder.Tests/RootFinder.Tests.fsproj[m
+[36m@@ -9,6 +9,7 @@[m
+     <Compile Include="FSCheckTests.fs" />[m
+     <Compile Include="ComplexTests.fs" />[m
+     <Compile Include="PolynomialTests.fs" />[m
+[32m+[m[32m    <Compile Include="SerializerTests.fs" />[m[41m[m
+     <Compile Include="SolverTests.fs" />[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+[1mdiff --git a/server/RootFinder/Function.fs b/server/RootFinder/Function.fs[m
+[1mindex a95af32..9b5ab25 100644[m
+[1m--- a/server/RootFinder/Function.fs[m
+[1m+++ b/server/RootFinder/Function.fs[m
+[36m@@ -9,8 +9,5 @@[m [mopen Solver[m
+ [m
+ type Lambda() =[m
+ [m
+[31m-  member __.Handler (input: string) (_: ILambdaContext) =[m
+[31m-    "Hello World!"[m
+[31m-[m
+[31m-//  member __.Handler (input: Polynomial) (_: ILambdaContext) : Complex array =[m
+[31m-//    solve input[m
+[32m+[m[32m  member __.Handler (input: Polynomial) (_: ILambdaContext) : Complex array =[m[41m[m
+[32m+[m[32m    solve input[m[41m[m
+[1mdiff --git a/server/RootFinder/RootFinder.fsproj b/server/RootFinder/RootFinder.fsproj[m
+[1mindex 245105e..1b88a3f 100644[m
+[1m--- a/server/RootFinder/RootFinder.fsproj[m
+[1m+++ b/server/RootFinder/RootFinder.fsproj[m
+[36m@@ -12,6 +12,7 @@[m
+     <Compile Include="Complex.fs" />[m
+     <Compile Include="Polynomial.fs" />[m
+     <Compile Include="Solver.fs" />[m
+[32m+[m[32m    <Compile Include="Serializers.fs" />[m[41m[m
+     <Compile Include="Function.fs" />[m
+   </ItemGroup>[m
+   <ItemGroup>[m
+[36m@@ -27,4 +28,4 @@[m
+   <ItemGroup>[m
+     <None Include="Script.fsx" />[m
+   </ItemGroup>[m
+[31m-</Project>[m
+\ No newline at end of file[m
+[32m+[m[32m</Project>[m[41m[m

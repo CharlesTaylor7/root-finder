@@ -1,0 +1,12 @@
+message Complex {
+  required double real = 1;
+  required double imaginary = 2;
+}
+
+message Polynomial {
+  repeated double coefficients = 1;
+}
+
+message Roots {
+  repeated Complex roots = 1;
+}
