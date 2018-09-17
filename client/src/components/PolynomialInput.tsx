@@ -18,14 +18,14 @@ export class PolynomialInput extends React.Component<{}, { text : string } > {
       
     this.state  = {
         text : " " 
-    };  
+    };
       
     this.onChange = this.onChange.bind(this);  
   }  
   
   onChange(e : any) {  
       const textInput = e.target.value;
-      
+
 
       this.setState({text : textInput});  
   }  

@@ -2,8 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { PolynomialInput } from './components/PolynomialInput';
+import { Input } from './components/MathInput'
 
 ReactDOM.render(
-    <PolynomialInput />,
+    <Input />,
     document.getElementById('root')
 );
