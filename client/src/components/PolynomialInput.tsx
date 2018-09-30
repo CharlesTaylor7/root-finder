@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Latex } from './Latex';
+import Input from '@material-ui/core/Input';
 
 const defaultState = { text: '', polynomial: [0], latex: '' };
 type State = typeof defaultState;
@@ -57,7 +58,7 @@ export class PolynomialInput extends React.Component< {}, State > {
         }}
         >
         <Latex input={latex}/>
-        <input 
+        <Input 
           style={{
             display: 'inline-block',
           }}
