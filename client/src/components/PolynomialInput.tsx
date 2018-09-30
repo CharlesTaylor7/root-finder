@@ -1,37 +1,68 @@
 import * as React from 'react';
-// import { HotKeys } from 'react-hotkeys';
+import { Latex } from './Latex';
 
-// const keyMap = {
-//   nextCoefficient: 'tab',
-//   backspace: 'backspace'
-// }
+const defaultState = { text: '', polynomial: [0], latex: '[\\ ]' };
+type State = typeof defaultState;
 
-// const handlers = {
-//   'moveUp': (event) => console.log('Move up hotkey called!')
-// };
+const getState = (input: string) : State => {
 
-// <HotKeys keyMap={keyMap} handlers={handlers} />
-export class PolynomialInput extends React.Component<{}, { text : string } > {
+  const decimal = /(\d*\.?\d* ?)/g;
+      
+  const matches = input.match(decimal)
+    .filter(match => match !== '' && match !== '.');
 
-  constructor(props : {}) {  
+  const polynomial = matches
+    .map(match => Number(match));
+
+  const latex = polynomial
+    .map((c, i) => {
+      const coefficient = String(c)
+      const x_term = `x^{${i}}`;
+    })
+    .join(" + ");
+
+  const text = matches.join('');
+
+  return { text, polynomial, latex };
+}
+
+export class PolynomialInput extends React.Component< {}, State > {
+  constructor(props : {}) {
     super(props);
-      
-    this.state  = {
-        text : " " 
-    };
-      
-    this.onChange = this.onChange.bind(this);  
-  }  
+    this.state = defaultState;
+    this.updateText = this.updateText.bind(this);
+  }
   
-  onChange(e : any) {  
-      const textInput = e.target.value;
+  updateText(event: any) {
+    const input = event.target.value as string;
+    const state = getState(input);
+    this.setState(state);
+  }
 
-
-      this.setState({text : textInput});  
-  }  
-  
-  render() {  
-      return <input type="text" value={this.state.text} onChange={this.onChange} />  
-  }  
-
+  render() {
+    const { text, latex } = this.state;
+    return (
+      <div 
+        style={{
+          textAlign: 'center',
+          position: 'absolute',
+          margin: 'auto',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          height: '100px',
+        }}
+        >
+        <Latex input={latex}/>
+        <input 
+          style={{
+            display: 'inline-block',
+          }}
+          autoFocus
+          type='text'
+          value={text}
+          onChange={this.updateText}/>
+      </div>);
+  }
 }
