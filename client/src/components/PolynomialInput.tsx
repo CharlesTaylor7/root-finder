@@ -43,29 +43,28 @@ export class PolynomialInput extends React.Component< {}, State > {
 
   render() {
     const { text, latex } = this.state;
+
     return (
-      <div 
+      <div style={{
+        textAlign: 'center',
+        position: 'absolute',
+        marginLeft: '2.54cm',
+        marginRight: '2.54cm',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        height: '100px',
+      }}>
+      <Latex input={latex}/>
+      <Input
         style={{
-          textAlign: 'center',
-          position: 'absolute',
-          marginLeft: '2.54cm',
-          marginRight: '2.54cm',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-          height: '100px',
+          display: 'inline-block',
         }}
-        >
-        <Latex input={latex}/>
-        <Input 
-          style={{
-            display: 'inline-block',
-          }}
-          autoFocus
-          type='text'
-          value={text}
-          onChange={this.updateText}/>
+        autoFocus
+        type='text'
+        value={text}
+        onChange={this.updateText}/>
       </div>);
   }
 }

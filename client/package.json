@@ -25,6 +25,7 @@
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-hotkeys": "^1.1.4",
-    "react-latex": "^1.2.0"
+    "react-latex": "^1.2.0",
+    "react-number-format": "^3.6.0"
   }
 }
