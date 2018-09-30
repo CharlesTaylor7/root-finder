@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Latex } from './Latex';
 
-const defaultState = { text: '', polynomial: [0], latex: '[\\ ]' };
+const defaultState = { text: '', polynomial: [0], latex: '' };
 type State = typeof defaultState;
 
 const getState = (input: string) : State => {
@@ -12,12 +12,13 @@ const getState = (input: string) : State => {
     .filter(match => match !== '' && match !== '.');
 
   const polynomial = matches
-    .map(match => Number(match));
+    .map(match => match === ' ' ? 0 : Number(match));
 
   const latex = polynomial
     .map((c, i) => {
       const coefficient = String(c)
       const x_term = `x^{${i}}`;
+      return `${coefficient}${x_term}`;
     })
     .join(" + ");
 
@@ -46,7 +47,8 @@ export class PolynomialInput extends React.Component< {}, State > {
         style={{
           textAlign: 'center',
           position: 'absolute',
-          margin: 'auto',
+          marginLeft: '2.54cm',
+          marginRight: '2.54cm',
           top: 0,
           right: 0,
           bottom: 0,
