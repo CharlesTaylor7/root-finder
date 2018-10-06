@@ -43,7 +43,7 @@ export class PolynomialInput extends React.Component< {}, State > {
 
   render() {
     const { text, latex } = this.state;
-
+    const placeholder ='1 + 5.3x&sup2; + 3x&sup4;';
     return (
       <div style={{
         textAlign: 'center',
@@ -61,6 +61,8 @@ export class PolynomialInput extends React.Component< {}, State > {
         style={{
           display: 'inline-block',
         }}
+        placeholder='1 + 3x - 7x&sup2; + 3x⁴'
+
         autoFocus
         type='text'
         value={text}
