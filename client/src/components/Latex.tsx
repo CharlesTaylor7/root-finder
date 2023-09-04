@@ -1,9 +1,15 @@
 import * as React from 'react';
 import katex from 'katex';
 
-export const Latex = ({ input } : { input: string} ) => (
-  <p 
-    dangerouslySetInnerHTML={{__html: katex.renderToString(input)}}
-    style={{flexWrap: 'wrap'}}
-  />
-);
+export function Latex({ input } : { input: string} ) { 
+  const ref = React.useRef();
+  React.useEffect(() => {
+    katex.render(input, ref.current)
+  }, [input]);
+  return (
+    <p 
+      ref={ref}
+      style={{flexWrap: 'wrap'}}
+    />
+  );
+}
