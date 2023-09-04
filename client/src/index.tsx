@@ -1,9 +1,9 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { PolynomialInput } from './components/PolynomialInput';
 
-ReactDOM.render(
-  <PolynomialInput />,
-  document.getElementById('root')
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <PolynomialInput />
+  </React.StrictMode>,
 );

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Latex } from './Latex';
-import Input from '@material-ui/core/Input';
 
 const defaultState = { text: '', polynomial: [0], latex: '' };
 type State = typeof defaultState;
@@ -28,7 +27,7 @@ const getState = (input: string) : State => {
   return { text, polynomial, latex };
 }
 
-export class PolynomialInput extends React.Component< {}, State > {
+export class PolynomialInput extends React.Component<{}, State > {
   constructor(props : {}) {
     super(props);
     this.state = defaultState;
@@ -57,7 +56,7 @@ export class PolynomialInput extends React.Component< {}, State > {
         height: '100px',
       }}>
       <Latex input={latex}/>
-      <Input
+      <input
         style={{
           display: 'inline-block',
         }}
@@ -66,7 +65,8 @@ export class PolynomialInput extends React.Component< {}, State > {
         autoFocus
         type='text'
         value={text}
-        onChange={this.updateText}/>
+        onChange={this.updateText}
+      />
       </div>);
   }
 }

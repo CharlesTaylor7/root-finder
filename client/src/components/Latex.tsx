@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { renderToString } from 'katex';
+import katex from 'katex';
 
 export const Latex = ({ input } : { input: string} ) => (
   <p 
-    dangerouslySetInnerHTML={{__html: renderToString(input)}}
+    dangerouslySetInnerHTML={{__html: katex.renderToString(input)}}
     style={{flexWrap: 'wrap'}}
   />
 );
