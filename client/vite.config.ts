@@ -1,10 +1,14 @@
 import path from 'node:path';
 import { defineConfig } from 'vite';
-import reactPlugin from '@vitejs/plugin-react-swc';
+import reactPlugin from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [reactPlugin()],
+  plugins: [
+    reactPlugin({
+      jsxRuntime: 'classic', 
+    })
+  ],
   base: '/root-finder/',
   server: {
     open: true,
