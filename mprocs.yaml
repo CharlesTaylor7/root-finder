@@ -1,4 +1,0 @@
-procs:
-  Dev Server:
-    cwd: client
-    shell: yarn dev
