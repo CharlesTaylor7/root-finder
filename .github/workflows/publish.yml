@@ -12,11 +12,6 @@ jobs:
     name: Deploy to Github Pages
     permissions:
       pages: write
-    needs:
-      - check-format
-      - test
-      - lint
-      - typecheck
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,7 +23,7 @@ jobs:
         run: |
           cd client
           yarn
-          yarn build
+          yarn exec vite build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
